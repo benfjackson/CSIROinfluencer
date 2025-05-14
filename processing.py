@@ -1,98 +1,103 @@
-import openai
+from openai import OpenAI
+from pydantic import BaseModel
+from typing import List
 
 import os
 import json
-openai.api_key = os.getenv("OPENAI_API_KEY")
+from dotenv import load_dotenv
+load_dotenv()
 
-def generate_instagram_post(abstract: str) -> dict:
-    system_prompt = (
-        "You are a creative science communicator who writes engaging, accessible, and "
-        "entertaining Instagram posts based on scientific papers. You use plain language, "
-        "analogies, emojis, and hooks to capture public interest, while remaining true to the research. "
-        "Your audience is curious but non-technical."
-    )
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    user_prompt = f"""
-You will be given a scientific abstract. Turn it into a JSON-formatted Instagram post that is:
-- Entertaining and accessible to the general public
-- Written in an informal, conversational tone
-- Includes a catchy hook and relevant emojis
-- Encourages curiosity or interaction
-- Factual and clear, without scientific jargon
+class InstaPostDataSchema(BaseModel):
+    title: str | None
+    hook: str
+    caption: str
+    hashtags: List[str]
 
-Return your output in the following JSON format, with no preamble or commentary:
-
-{{
-  "hook": "...",
-  "caption": "...",
-  "hashtags": ["...", "...", "..."]
-}}
-
-Abstract:
-\"\"\"{abstract}\"\"\"
-"""
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
+def generate_structured_instagram_post(abstract: str):
+    response = client.responses.parse(
+        model="o4-mini",
+        input=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a creative science communicator who writes engaging, accessible, and entertaining "
+                    "Instagram posts based on scientific papers. You use plain language, analogies, emojis, and hooks "
+                    "to capture public interest, while remaining true to the research. Your audience is curious but non-technical."
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Here is a scientific abstract from a CSIRO publication. Turn it into an Instagram post with the following structure:\n"
+                    f"- A catchy title (optional)\n"
+                    f"- A hook (first line to grab attention)\n"
+                    f"- A full caption (≤ 2200 characters, plain language, with emojis)\n"
+                    f"- 3-5 relevant hashtags\n\n"
+                    f"Abstract:\n\"\"\"\n{abstract}\n\"\"\""
+                ),
+            },
         ],
-        temperature=0,
-        max_tokens=1000
+        text_format=InstaPostDataSchema
     )
 
-    output_text = response.choices[0].message["content"]
-
-    # Attempt to safely parse JSON from the raw string
-    import json
-    try:
-        parsed_output = json.loads(output_text)
-    except json.JSONDecodeError:
-        parsed_output = {"error": "Failed to parse JSON", "raw_output": output_text}
-
-    return parsed_output
+    return response.output_parsed
 
 
 import pandas as pd
 # run across the abstracts
-def get_articles_abstracts() -> list:
-    # Get a list of abstracts we want to make posts for
+def get_articles() -> list:
+    # Get a list of articles we want to make posts for
     
     # load from articles.csv
-    df = pd.read_csv("data/articles.csv")
-    # get the abstracts
-    abstracts = df["abstract"].tolist()
-    # remove duplicates
-    abstracts = list(set(abstracts))
+    df = pd.read_csv("data/articles.csv", sep=";", encoding="utf-8")
 
-    return abstracts
+    articles = []
+    for _, row in df.iterrows():  # Unpack the tuple into index (_) and row
+        articles.append({
+            "title": row["title"],  # Access row data using string keys
+            "abstract": row["abstract"],
+            "pdf_url": row["pdf_url"],
+        })
 
-def process_abstracts(abstracts: list) -> list:
-    # generate posts for each abstract
+    return articles
+
+def process_articles(articles: list) -> list:
+    # generate posts for each article
     # incrementally save to a file
     posts = []
-    for abstract in abstracts:
+    for article in articles:
 
+        abstract = article["abstract"]
         try:
             # generate the post
-            post = generate_instagram_post(abstract)
+            post = generate_structured_instagram_post(abstract)
         except Exception as e:
-            print(f"Error generating post for abstract: {abstract}")
+            print(f"Error generating post for article: {article["title"]}")
             print(e)
-            post = {"error": "Failed to generate post", "abstract": abstract}
-        posts.append(post)
+            post = {"error": "Failed to generate post", "article": article["title"]}
+        
+        postDict = post.dict()
+        # add the article data to the post
+
+        # add the article link and title to the post
+        postDict["article_link"] = article["pdf_url"]
+        postDict["article_title"] = article["title"]
+
+        posts.append(postDict)
         # save to a file
         with open("data/posts.jsonl", "a") as f:
-            f.write(json.dumps(post) + "\n")
+            print(postDict)
+            f.write(json.dumps(postDict) + "\n")
     return posts
 
 
 if __name__ == "__main__":
     # get the abstracts
-    abstracts = get_articles_abstracts()
+    abstracts = get_articles()
     # process the abstracts
-    posts = process_abstracts(abstracts)
+    posts = process_articles(abstracts[0:1])
     # print the posts
     for post in posts:
         print(post)
