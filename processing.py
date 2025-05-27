@@ -10,14 +10,19 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class InstaPostDataSchema(BaseModel):
-    title: str | None
+    # title: str | None
     hook: str
     caption: str
     hashtags: List[str]
+    image_prompt: str
 
+# 0 temperature
 def generate_structured_instagram_post(abstract: str):
     response = client.responses.parse(
-        model="o4-mini",
+
+        model="gpt-4.5-preview",
+        # model="o4-mini",
+        temperature=0,
         input=[
             {
                 "role": "system",
@@ -25,16 +30,18 @@ def generate_structured_instagram_post(abstract: str):
                     "You are a creative science communicator who writes engaging, accessible, and entertaining "
                     "Instagram posts based on scientific papers. You use plain language, analogies, emojis, and hooks "
                     "to capture public interest, while remaining true to the research. Your audience is curious but non-technical."
+                    "In addition to the post text, generate a short visual prompt to search Unsplash for a background image that suits the theme or metaphor of the post."
                 ),
             },
             {
                 "role": "user",
                 "content": (
                     f"Here is a scientific abstract from a CSIRO publication. Turn it into an Instagram post with the following structure:\n"
-                    f"- A catchy title (optional)\n"
+                    # f"- A catchy title (optional)\n"
                     f"- A hook (first line to grab attention)\n"
                     f"- A full caption (≤ 2200 characters, plain language, with emojis)\n"
                     f"- 3-5 relevant hashtags\n\n"
+                    f"- A visual search prompt for an Unsplash image background\n\n"
                     f"Abstract:\n\"\"\"\n{abstract}\n\"\"\""
                 ),
             },
@@ -97,7 +104,7 @@ if __name__ == "__main__":
     # get the abstracts
     abstracts = get_articles()
     # process the abstracts
-    posts = process_articles(abstracts[0:1])
+    posts = process_articles(abstracts[1:2])
     # print the posts
     for post in posts:
         print(post)
