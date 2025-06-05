@@ -1,3 +1,11 @@
+
+"""
+This file handles the generation and management of images for articles.
+It reads article data from a JSONL file, checks if an image has already been generated for each article, and if not, creates and saves a new image.
+The script also updates the article data with the image path and logs generated images to avoid duplicates.
+Error handling is included to catch and manage exceptions during image creation.
+"""
+
 import requests
 from PIL import Image
 from io import BytesIO

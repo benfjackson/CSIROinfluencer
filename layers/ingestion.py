@@ -1,3 +1,12 @@
+"""
+ingestion.py
+
+This module crawls academic journal websites to extract article metadata and saves it as CSV.
+Includes functions for crawling journal/article pages, extracting metadata, and batch processing.
+
+Dependencies: requests, pandas, beautifulsoup4
+"""
+
 import os
 import time
 import json

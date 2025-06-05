@@ -1,3 +1,10 @@
+"""
+This file provides functionality to generate structured Instagram posts from scientific article abstracts.
+It uses OpenAI's API to transform abstracts into engaging social media content, including hooks, captions, hashtags, and image prompts.
+The code reads articles from a CSV file, processes each abstract, and saves the generated posts to a JSONL file.
+Error handling and logging are included for failed generations.
+"""
+
 from openai import OpenAI
 from pydantic import BaseModel
 from typing import List
