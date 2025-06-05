@@ -93,6 +93,7 @@ def process_articles(articles: list) -> list:
             with open("data/processing_errors.log", "a") as f:
                 f.write(f"Error generating post for article: {article['title']}\n")
                 f.write(f"Error: {str(e)}\n")
+            continue
         
         postDict = post.dict()
         # add the article data to the post
@@ -111,7 +112,7 @@ def process_articles(articles: list) -> list:
 
 def process():
     articles = get_articles()
-    processed_articles = process_articles(articles[2:4])
+    processed_articles = process_articles(articles[6:8])
     return processed_articles
 
 if __name__ == "__main__":
