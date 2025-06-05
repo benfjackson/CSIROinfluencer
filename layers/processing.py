@@ -16,7 +16,6 @@ class InstaPostDataSchema(BaseModel):
     hashtags: List[str]
     image_prompt: str
 
-# 0 temperature
 def generate_structured_instagram_post(abstract: str):
     response = client.responses.parse(
 
@@ -57,7 +56,6 @@ import pandas as pd
 def get_articles() -> list:
     # Get a list of articles we want to make posts for
     
-    # load from articles.csv
     df = pd.read_csv("data/articles.csv", sep=";", encoding="utf-8")
 
     articles = []
@@ -83,7 +81,11 @@ def process_articles(articles: list) -> list:
         except Exception as e:
             print(f"Error generating post for article: {article["title"]}")
             print(e)
-            post = {"error": "Failed to generate post", "article": article["title"]}
+
+            # log to processing_errors.log
+            with open("data/processing_errors.log", "a") as f:
+                f.write(f"Error generating post for article: {article['title']}\n")
+                f.write(f"Error: {str(e)}\n")
         
         postDict = post.dict()
         # add the article data to the post
@@ -100,11 +102,13 @@ def process_articles(articles: list) -> list:
     return posts
 
 
+def process():
+    articles = get_articles()
+    processed_articles = process_articles(articles[2:4])
+    return processed_articles
+
 if __name__ == "__main__":
-    # get the abstracts
-    abstracts = get_articles()
-    # process the abstracts
-    posts = process_articles(abstracts[1:2])
-    # print the posts
+    posts = process()
     for post in posts:
         print(post)
+

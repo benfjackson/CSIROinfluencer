@@ -1,8 +1,22 @@
 import requests
 from PIL import Image
 from io import BytesIO
+import os
+import json
 
-PEXELS_API_KEY = "xx0XI1IaEuhQq2fYTRsWFmuv79xqEzTwQW9Tkt3zrRgsbVsWyoyQ5Wsu"
+PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
+
+from PIL import Image, ImageDraw, ImageFont
+from typing import Tuple
+
+
+
+# Load fonts (adjust paths and sizes to your liking)
+TITLE_FONT = ImageFont.truetype("fonts/Inter-Bold.ttf", 80)
+CAPTION_FONT = ImageFont.truetype("fonts/Inter-Regular.ttf", 44)
+HASHTAG_FONT = ImageFont.truetype("fonts/Inter-Regular.ttf", 36)
+ATTRIB_FONT = ImageFont.truetype("fonts/Inter-Italic.ttf", 24)
+
 
 def fetch_pexels_image(query: str, size: str = "original") -> tuple[Image.Image, str]:
     """
@@ -13,6 +27,10 @@ def fetch_pexels_image(query: str, size: str = "original") -> tuple[Image.Image,
     :return: (Pillow Image object, photographer name)
     """
     url = "https://api.pexels.com/v1/search"
+    if not PEXELS_API_KEY:
+        raise ValueError("PEXELS_API_KEY environment variable is not set.")
+    if not query:
+        raise ValueError("No image prompt provided. Please provide a valid query string.")
     headers = {
         "Authorization": PEXELS_API_KEY
     }
@@ -22,7 +40,9 @@ def fetch_pexels_image(query: str, size: str = "original") -> tuple[Image.Image,
     }
 
     response = requests.get(url, headers=headers, params=params)
-    print(response)
+    print(f"Request URL: {response.url}")
+    print(f"Status Code: {response.status_code}")
+    print(f"Response Text: {response.text}")
     response.raise_for_status()
     data = response.json()
 
@@ -38,14 +58,6 @@ def fetch_pexels_image(query: str, size: str = "original") -> tuple[Image.Image,
     photographer = photo["photographer"]
     return image, photographer
 
-from PIL import Image, ImageDraw, ImageFont
-from typing import Tuple
-
-# Load fonts (adjust paths and sizes to your liking)
-TITLE_FONT = ImageFont.truetype("fonts/Inter-Bold.ttf", 80)
-CAPTION_FONT = ImageFont.truetype("fonts/Inter-Regular.ttf", 44)
-HASHTAG_FONT = ImageFont.truetype("fonts/Inter-Regular.ttf", 36)
-ATTRIB_FONT = ImageFont.truetype("fonts/Inter-Italic.ttf", 24)
 
 def create_post_image(post_data: dict) -> Image.Image:
     """
@@ -55,10 +67,7 @@ def create_post_image(post_data: dict) -> Image.Image:
     hook = post_data.get("hook", "").encode('ascii', 'ignore').decode('ascii')
     image_prompt = post_data.get("image_prompt", "")
 
-    caption = post_data.get("caption", "")
-    hashtags = post_data.get("hashtags", [])
-
-    # === Get background image ===
+    # === Get and resize a background image ===
     bg_image, photographer = fetch_pexels_image(image_prompt)
     # resize without distorting the image by scaling it down to 1080 height
     # and then cropping it to 1080 width
@@ -74,24 +83,26 @@ def create_post_image(post_data: dict) -> Image.Image:
         # and center it horizontally
 
 
-    # === Draw text ===
     draw = ImageDraw.Draw(bg_image)
     margin = 60
     y = margin
 
-    # Draw hook (large text)
+    # === Draw the hook on top of the background ===
     # Should wrap to fit the image width
     # and be over a white background
+
+    # Measure how wide it will be
     hook_lines = draw.textbbox((margin, y), hook, font=TITLE_FONT)
     if hook_lines:
         hook_width = hook_lines[2] - hook_lines[0]
     else:
         print("Warning: Unable to calculate text bounding box for the hook.")
         hook_width = 0
-    # hook_width = hook_lines[2] - hook_lines[0]
 
     
+    # If too wide for the bg image, draw a multiline hook
     if hook_width > 1080 - 2 * margin:
+        
         # Split the text into lines that fit within the image width
         words = hook.split()
         lines = []
@@ -112,19 +123,15 @@ def create_post_image(post_data: dict) -> Image.Image:
         hook_height = 0
         for line in lines:
             hook_height += TITLE_FONT.getbbox(line)[3] + 20
-        # draw.rectangle((margin - 10, y - 10, 1080 - margin + 10, y + hook_height + 10), fill=(255, 255, 255, 200))
-        # Draw a rounded rectangle
-        # Create a semi-transparent white background for the hook
-
 
         overlay = Image.new("RGBA", bg_image.size, (255, 255, 255, 0))
         overlay_draw = ImageDraw.Draw(overlay)
         overlay_draw.rounded_rectangle(
             (margin - 10, y - 10, 1080 - margin + 10, y + hook_height + 10),
             radius=20,
-            fill=(255, 255, 255, 200)  # Adjust alpha here (0-255)
+            fill=(255, 255, 255, 200)
         )
-        # Composite the overlay with the background image
+
         bg_image = Image.alpha_composite(bg_image.convert("RGBA"), overlay)
         draw = ImageDraw.Draw(bg_image)
         
@@ -135,13 +142,13 @@ def create_post_image(post_data: dict) -> Image.Image:
             y += TITLE_FONT.getbbox(line)[3] + 20
             
     else:
-        # Draw the hook as a single line
+        # If small enough draw the hook as a single line
         draw.text((margin, y), hook, font=TITLE_FONT, fill=(0, 0, 0, 255))
         y += TITLE_FONT.getbbox(hook)[3] + 20
 
     y += TITLE_FONT.getbbox(hook)[3] + 40
 
-    # Draw attribution (bottom-right)
+    # === Draw photo attribution (bottom-right)
     if photographer:
         attrib_text = f"Photo: {photographer} | Source: Pexels"
         text_width = ATTRIB_FONT.getbbox(attrib_text)[2]
@@ -159,10 +166,39 @@ def create_post_image(post_data: dict) -> Image.Image:
 
     return bg_image.convert("RGB")  # For saving to JPEG/PNG
 
-testData = {"hook": "\ud83d\udd25 Did you know plants have their own fire personalities?", "caption": "Plants aren't just green decorations\u2014they each have unique traits that affect how they burn! \ud83c\udf3f\ud83d\udd25 Researchers studied Brazil's mountain grasslands and found that certain plant combinations burn differently than expected. Some plants, even those not very flammable alone, can significantly influence fire behavior when mixed with others. Understanding these interactions helps us manage wildfires better and protect our ecosystems. \ud83c\udf0e\ud83d\udc9a #PlantScience #WildfireManagement #NatureInsights", "hashtags": ["PlantScience", "WildfireManagement", "NatureInsights"], "image_prompt": "mountain grassland with diverse plant species", "article_link": "https://www.publish.csiro.au/wf/pdf/WF24168", "article_title": "Non-additive effects on plant mixtures flammability in a tropical mountain ecosystem"}
+def load_generated_images(filepath="output/generated_images.txt"):
+    if not os.path.exists(filepath):
+        return set()
+    with open(filepath, "r") as f:
+        return set(line.strip() for line in f)
+
+def save_generated_image(article_title, filepath="output/generated_images.txt"):
+    with open(filepath, "a") as f:
+        f.write(f"{article_title}\n")
+
+def generate_images():
+    generated = load_generated_images()
+    with open("data/posts.jsonl") as f:
+        for line in f:
+            post_data = json.loads(line)
+            title = post_data['article_title'][:50]
+            if title in generated:
+                continue  # Skip already generated
+
+            try:
+                img = create_post_image(post_data)
+                img.save(f"output/{title}.jpg", "JPEG")
+                post_data['image_path'] = f"output/{title}.jpg"
+                with open("output/posts_with_images.jsonl", "a") as out_f:
+                    out_f.write(json.dumps(post_data) + "\n")
+                save_generated_image(title)
+                
+            except Exception as e:
+                print(f"Error generating image for {title}: {e}")
+                with open("output/image_errors.log", "a") as err_f:
+                    err_f.write(f"{title}: {str(e)}\n")
+                    
+
+
 if __name__ == "__main__":
-    # Create a post image
-    post_image = create_post_image(testData)
-    # Save the image
-    post_image.save("test_post.jpg", "JPEG")
-    print("Post image saved as test_post.jpg")
+    generate_images()
