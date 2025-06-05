@@ -17,7 +17,7 @@ from datetime import datetime
 with DAG(
     dag_id="csiro_influencer_pipeline",
     start_date=datetime(2025, 5, 6),
-    schedule_interval="@weekly",
+    # schedule_interval="@weekly",
     catchup=False,
 ) as dag:
     ingest_task = PythonOperator(
