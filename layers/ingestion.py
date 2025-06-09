@@ -89,18 +89,33 @@ def crawl_all_articles(journal_list, delay=2):
         time.sleep(delay)
     return list(all_links)
 
-def process_articles(article_links, output_file='data/articles.csv', delay=2, error_log='data/ingestion_errors.log'):
+def load_crawled_urls(filepath='data/crawled_urls.txt'):
+    if not os.path.exists(filepath):
+        return set()
+    with open(filepath, 'r') as f:
+        return set(line.strip() for line in f if line.strip())
+
+def save_crawled_url(url, filepath='data/crawled_urls.txt'):
+    with open(filepath, 'a') as f:
+        f.write(url + '\n')
+
+def process_articles(article_links, output_file='data/articles.csv', delay=2, error_log='data/ingestion_errors.log', crawled_file='data/crawled_urls.txt'):
+    crawled_urls = load_crawled_urls(crawled_file)
     for idx, link in enumerate(article_links):
+        if link in crawled_urls:
+            print(f"Skipping already crawled: {link}")
+            continue
         print(f"Progress: {idx+1}/{len(article_links)}")
         try:
             article_data = crawl_article(link)
+            time.sleep(delay)
             if article_data:
                 save_article_data(article_data, output_file)
+                save_crawled_url(link, crawled_file)
         except Exception as e:
             print(f"Failed to collect data from {link}: {e}")
             with open(error_log, 'a') as errfile:
                 errfile.write(f"{link}: {e}\n")
-        time.sleep(delay)
 
 def ingest():
     journal_list = load_journal_list('data/journals.json')
