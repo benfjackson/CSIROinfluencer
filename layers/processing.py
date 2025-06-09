@@ -8,13 +8,22 @@ Error handling and logging are included for failed generations.
 from openai import OpenAI
 from pydantic import BaseModel
 from typing import List
+import logging
 
 import os
 import json
+import pandas as pd
 from dotenv import load_dotenv
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Set up logging at the top of your file, after imports
+logging.basicConfig(
+    filename="data/processing_errors.log",
+    level=logging.ERROR,
+    format="%(asctime)s %(levelname)s: %(message)s"
+)
 
 class InstaPostDataSchema(BaseModel):
     # title: str | None
@@ -58,8 +67,6 @@ def generate_structured_instagram_post(abstract: str):
     return response.output_parsed
 
 
-import pandas as pd
-# run across the abstracts
 def get_articles() -> list:
     # Get a list of articles we want to make posts for
     
@@ -86,13 +93,13 @@ def process_articles(articles: list) -> list:
             # generate the post
             post = generate_structured_instagram_post(abstract)
         except Exception as e:
-            print(f"Error generating post for article: {article["title"]}")
-            print(e)
-
-            # log to processing_errors.log
-            with open("data/processing_errors.log", "a") as f:
-                f.write(f"Error generating post for article: {article['title']}\n")
-                f.write(f"Error: {str(e)}\n")
+            logging.error(
+                "Error generating post for article: %s\nError: %s",
+                article['title'],
+                str(e),
+                exc_info=True  # Includes stack trace
+            )
+            print(f"Error generating post for article: {article['title']}")
             continue
         
         postDict = post.dict()
@@ -119,4 +126,3 @@ if __name__ == "__main__":
     posts = process()
     for post in posts:
         print(post)
-
