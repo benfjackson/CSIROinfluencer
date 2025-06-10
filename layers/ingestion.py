@@ -143,8 +143,8 @@ def crawl_all_articles(article_links, output_file='data/articles.csv', delay=2, 
 
 def ingest():
     journal_list = load_journal_list('data/journals.json')
-    all_article_links = crawl_all_journals(journal_list[3:8])
-    crawl_all_articles(all_article_links[48:100])
+    all_article_links = crawl_all_journals(journal_list)
+    crawl_all_articles(all_article_links)
 
 if __name__ == "__main__":
     ingest()

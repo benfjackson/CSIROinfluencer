@@ -126,7 +126,7 @@ def process_articles(articles: list) -> list:
 
 def process():
     articles = get_articles()
-    processed_articles = process_articles(articles[6:8])
+    processed_articles = process_articles(articles)
     return processed_articles
 
 if __name__ == "__main__":
