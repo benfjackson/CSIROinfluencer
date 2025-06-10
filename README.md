@@ -9,7 +9,6 @@
 - Converts dense research papers into concise, easy-to-understand summaries
 - Generates social media-ready captions and visuals
 - Supports multiple scientific disciplines
-- Customizable templates for different content styles
 
 ## Getting Started
 
@@ -20,12 +19,27 @@
 2. **Install dependencies:**
    ```bash
    cd CSIROinfluencer
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
-3. **Run the tool manually:**
+3. **Put API keys into .env:**
+   Will require an OpenAI and a Pexels key
+
+4. **Activate venv with**
    ```bash
-   python main.py
+   source .venv/bin/activate
    ```
+
+## Structure of project
+
+The project is organized as follows:
+
+- `orchestration.py` - Main script to generate Instagram-ready posts.
+- `layers/` - Contains modular components for parsing, summarization, and content generation.
+- `run_weekly.sh` - Shell script for scheduled automation.
+- `requirements.txt` - Lists Python dependencies.
+- `output/` - Contains generated posts and images.
+- `.env` - Stores API keys (OpenAI, Pexels).
+- Additional modules and resources - Support parsing, summarization, and image generation.
 
 ## Usage
 
