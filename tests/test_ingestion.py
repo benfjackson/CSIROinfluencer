@@ -109,7 +109,7 @@ def test_crawl_all_articles(mock_crawl_journal):
         ['http://a.com/2', 'http://a.com/3']
     ]
     journal_list = ['http://a.com/j1', 'http://a.com/j2']
-    links = ingestion.crawl_all_articles(journal_list, delay=0)
+    links = ingestion.crawl_all_journals(journal_list, delay=0)
     assert set(links) == {'http://a.com/1', 'http://a.com/2', 'http://a.com/3'}
 
 # -------------------- process_articles --------------------
@@ -121,13 +121,13 @@ def test_process_articles_success(mock_save, mock_crawl):
         {'title': 'A', 'authors': [], 'abstract': '', 'publication_date': '', 'journal_name': '', 'doi': '', 'pdf_url': ''},
         None
     ]
-    ingestion.process_articles(['url1', 'url2'], output_file='dummy.csv', delay=0, error_log='dummy.log')
+    ingestion.crawl_all_articles(['url1', 'url2'], output_file='dummy.csv', delay=0, error_log='dummy.log')
     assert mock_save.call_count == 1
 
 @patch('layers.ingestion.crawl_article', side_effect=Exception("fail"))
 def test_process_articles_exception(mock_crawl, tmp_path):
     error_log = tmp_path / "err.log"
-    ingestion.process_articles(['url1'], output_file='dummy.csv', delay=0, error_log=str(error_log))
+    ingestion.crawl_all_articles(['url1'], output_file='dummy.csv', delay=0, error_log=str(error_log))
     with open(error_log) as f:
         content = f.read()
     assert "url1" in content

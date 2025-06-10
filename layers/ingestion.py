@@ -103,7 +103,7 @@ def load_journal_list(file_path='data/journals.json'):
     with open(file_path, 'r') as f:
         return json.load(f)
 
-def crawl_all_articles(journal_list, delay=2):
+def crawl_all_journals(journal_list, delay=2):
     """
     Crawl all journals and return a list of all article links (deduplicated).
     """
@@ -125,7 +125,7 @@ def save_crawled_url(url, filepath='data/crawled_urls.txt'):
     with open(filepath, 'a') as f:
         f.write(url + '\n')
 
-def process_articles(article_links, output_file='data/articles.csv', delay=2, error_log='data/ingestion_errors.log', crawled_file='data/crawled_urls.txt'):
+def crawl_all_articles(article_links, output_file='data/articles.csv', delay=2, error_log='data/ingestion_errors.log', crawled_file='data/crawled_urls.txt'):
     crawled_urls = load_crawled_urls(crawled_file)
     for idx, link in enumerate(article_links):
         if link in crawled_urls:
@@ -143,8 +143,8 @@ def process_articles(article_links, output_file='data/articles.csv', delay=2, er
 
 def ingest():
     journal_list = load_journal_list('data/journals.json')
-    all_links = crawl_all_articles(journal_list[3:8])
-    process_articles(all_links[0:48])
+    all_article_links = crawl_all_journals(journal_list[3:8])
+    crawl_all_articles(all_article_links[48:100])
 
 if __name__ == "__main__":
     ingest()
