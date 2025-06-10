@@ -86,7 +86,8 @@ def process_articles(articles: list) -> list:
     # generate posts for each article
     # incrementally save to a file
     posts = []
-    for article in articles:
+    total = len(articles)
+    for idx, article in enumerate(articles, 1):
 
         abstract = article["abstract"]
         try:
@@ -114,6 +115,12 @@ def process_articles(articles: list) -> list:
         with open("data/posts.jsonl", "a") as f:
             print(postDict)
             f.write(json.dumps(postDict) + "\n")
+        
+        # Print progress meter
+        progress = int((idx / total) * 40)
+        bar = "[" + "#" * progress + "-" * (40 - progress) + "]"
+        print(f"Progress: {bar} {idx}/{total} articles processed", end="\r")
+
     return posts
 
 

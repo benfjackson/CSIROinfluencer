@@ -1,4 +1,3 @@
-
 """
 This file handles the generation and management of images for articles.
 It reads article data from a JSONL file, checks if an image has already been generated for each article, and if not, creates and saves a new image.
@@ -11,13 +10,20 @@ from PIL import Image
 from io import BytesIO
 import os
 import json
+import logging
 
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
 
 from PIL import Image, ImageDraw, ImageFont
 from typing import Tuple
+from tqdm import tqdm
 
-
+# Setup logging at the top of your file
+logging.basicConfig(
+    filename="output/image_errors.log",
+    level=logging.ERROR,
+    format="%(asctime)s %(levelname)s %(message)s"
+)
 
 # Load fonts (adjust paths and sizes to your liking)
 TITLE_FONT = ImageFont.truetype("fonts/Inter-Bold.ttf", 80)
@@ -186,11 +192,17 @@ def save_generated_image(article_title, filepath="output/generated_images.txt"):
 
 def generate_images():
     generated = load_generated_images()
+    # Count total lines for progress bar
     with open("data/posts.jsonl") as f:
-        for line in f:
+        lines = f.readlines()
+    total = len(lines)
+
+    with tqdm(total=total, desc="Generating images") as pbar:
+        for line in lines:
             post_data = json.loads(line)
             title = post_data['article_title'][:50]
             if title in generated:
+                pbar.update(1)
                 continue  # Skip already generated
 
             try:
@@ -200,13 +212,12 @@ def generate_images():
                 with open("output/posts_with_images.jsonl", "a") as out_f:
                     out_f.write(json.dumps(post_data) + "\n")
                 save_generated_image(title)
-                
             except Exception as e:
-                print(f"Error generating image for {title}: {e}")
-                with open("output/image_errors.log", "a") as err_f:
-                    err_f.write(f"{title}: {str(e)}\n")
-                    
-
+                logging.exception(f"Error generating image for {title}")
+            pbar.update(1)
 
 if __name__ == "__main__":
+    if not os.path.exists("output"):
+        os.makedirs("output")
     generate_images()
+    print("Image generation complete. Check the 'output' directory for results.")
