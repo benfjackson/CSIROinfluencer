@@ -1,0 +1,100 @@
+Starting pipeline execution...
+Progress: 1/52
+Progress: 5/52
+Progress: 6/52
+Progress: 8/52
+Progress: 9/52
+Progress: 11/52
+Progress: 12/52
+Progress: 13/52
+Progress: 14/52
+Progress: 15/52
+Progress: 16/52
+Progress: 19/52
+Progress: 20/52
+Progress: 21/52
+Progress: 22/52
+Progress: 24/52
+Progress: 25/52
+Progress: 26/52
+Progress: 28/52
+Progress: 30/52
+Progress: 31/52
+Progress: 35/52
+Progress: 36/52
+Progress: 37/52
+Progress: 38/52
+Progress: 39/52
+Progress: 40/52
+Progress: 41/52
+Progress: 45/52
+Progress: 47/52
+Progress: 51/52
+Progress: 52/52
+Ingestion completed. Processing articles...
+{'hook': '🔥 Ever wondered what happens when animal dung catches fire in the wild?', 'caption': "Turns out, animal dung isn't just waste—it's a nutrient hotspot! 💩🔥 Researchers studied dung from animals like elephants and zebras during savanna fires and found that burning dung releases carbon and enriches the soil with nutrients like calcium and phosphorus. This means dung fires play a unique role in nutrient cycling, different from burning grass. Understanding this helps us better estimate carbon emissions and the ecological impact of fires. 🌍🐘 #NatureIsAmazing #SavannaScience #EcoFacts", 'hashtags': ['NatureIsAmazing', 'SavannaScience', 'EcoFacts'], 'image_prompt': 'African savanna landscape with a controlled grass fire', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24162', 'article_title': 'Burning poop: chemical composition and carbon dynamics of large herbivore dung burned in African savanna fires'}
+Progress: [##########------------------------------] 1/4 articles processed{'hook': '🔥 Ever wondered what happens to soil after multiple wildfires?', 'caption': 'Scientists have developed a new way to study how repeated wildfires affect soil carbon, specifically looking at pyrogenic organic matter (PyOM). 🌱🔥 They found that hotter fires and shallower soil depths lead to greater loss of this important carbon storage. Understanding this helps us predict how wildfires impact our environment and climate change. 🌍🌡️ #WildfireScience #SoilHealth #ClimateChange', 'hashtags': ['WildfireScience', 'SoilHealth', 'ClimateChange'], 'image_prompt': 'forest soil after wildfire', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24128', 'article_title': 'Reburning pyrogenic organic matter: a laboratory method for dosing dynamic heat fluxes from above'}
+Progress: [####################--------------------] 2/4 articles processed{'hook': "🔥 Are savanna fires getting fiercer? Here's what science says!", 'caption': "Did you know that fires in African savannas are becoming more intense, especially during the late dry season? 🌾🔥 Recent research shows that fire weather severity is increasing, but it's not just about the weather—human activities also play a big role. By managing fires proactively during the early, wetter season, we can help protect biodiversity and reduce harmful emissions. 🌍🌱 Let's stay informed and proactive!", 'hashtags': ['SavannaFires', 'ClimateChange', 'Biodiversity', 'FireManagement', 'EcoFriendly'], 'image_prompt': 'African savanna landscape with controlled fire or smoke', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24002', 'article_title': 'Fire weather severity in southern Africa is increasing faster and more extensively in the late than in the early dry season'}
+Progress: [##############################----------] 3/4 articles processed{'hook': '🔥 Neighbors fighting fire with fire? Literally!', 'caption': "Ever heard of communities coming together to intentionally set fires? 🤔🔥 It's true! Across the US, Prescribed Burn Associations (PBAs) are empowering locals to safely manage wildfires by conducting controlled burns. These community-led groups are not only protecting their lands but also changing who gets to use fire as a tool. With thousands of volunteers, they're burning over 34,000 hectares each year, reducing wildfire risks and restoring ecosystems. 🌲👩\u200d🚒👨\u200d🚒 It's neighbors helping neighbors, pooling resources, and sharing knowledge. Could this be the future of wildfire management? 🌎✨", 'hashtags': ['#WildfireManagement', '#CommunityAction', '#PrescribedBurn', '#FireSafety', '#EcoRestoration'], 'image_prompt': 'community volunteers conducting a controlled burn in a forest', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24178', 'article_title': 'Burning from the ground up: the structure and impact of Prescribed Burn Associations in the United States'}
+Progress: [########################################] 4/4 articles processedProcessing completed. Generating images...
+Generating images:   0%|          | 0/15 [00:00<?, ?it/s]Generating images:  80%|████████  | 12/15 [00:02<00:00,  5.79it/s]Generating images:  87%|████████▋ | 13/15 [00:07<00:01,  1.44it/s]Generating images:  93%|█████████▎| 14/15 [00:10<00:01,  1.05s/it]Generating images: 100%|██████████| 15/15 [00:12<00:00,  1.23s/it]Generating images: 100%|██████████| 15/15 [00:12<00:00,  1.18it/s]
+Request URL: https://api.pexels.com/v1/search?query=African+savanna+landscape+with+a+controlled+grass+fire&per_page=1
+Status Code: 200
+Response Text: {"page":1,"per_page":1,"photos":[{"id":4577840,"width":2592,"height":1728,"url":"https://www.pexels.com/photo/lioness-resting-on-grass-in-savanna-4577840/","photographer":"Rachel Claire","photographer_url":"https://www.pexels.com/@rachel-claire","photographer_id":2272619,"avg_color":"#4C4435","src":{"original":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg","large2x":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=2\u0026h=650\u0026w=940","large":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=650\u0026w=940","medium":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=350","small":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=130","portrait":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=1200\u0026w=800","landscape":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=627\u0026w=1200","tiny":"https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=1\u0026fit=crop\u0026h=200\u0026w=280"},"liked":false,"alt":"Wild lioness lying on hill in dry grass on sunny summer day in savanna"}],"total_results":8000,"next_page":"https://api.pexels.com/v1/search?page=2\u0026per_page=1\u0026query=African+savanna+landscape+with+a+controlled+grass+fire"}
+🔗 Downloading image: https://images.pexels.com/photos/4577840/pexels-photo-4577840.jpeg
+Drawing line: Ever wondered what
+Drawing line: happens when animal
+Drawing line: dung catches fire in the
+Drawing line: wild?
+Request URL: https://api.pexels.com/v1/search?query=forest+soil+after+wildfire&per_page=1
+Status Code: 200
+Response Text: {"page":1,"per_page":1,"photos":[{"id":27490567,"width":10000,"height":7500,"url":"https://www.pexels.com/photo/forest-fire-and-environmental-disaster-27490567/","photographer":"Engin Akyurt","photographer_url":"https://www.pexels.com/@enginakyurt","photographer_id":631997,"avg_color":"#383433","src":{"original":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg","large2x":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=2\u0026h=650\u0026w=940","large":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=650\u0026w=940","medium":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=350","small":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=130","portrait":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=1200\u0026w=800","landscape":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=627\u0026w=1200","tiny":"https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=1\u0026fit=crop\u0026h=200\u0026w=280"},"liked":false,"alt":"A dramatic scene of a burned forest after a wildfire with charred trees and soil."}],"total_results":8000,"next_page":"https://api.pexels.com/v1/search?page=2\u0026per_page=1\u0026query=forest+soil+after+wildfire"}
+🔗 Downloading image: https://images.pexels.com/photos/27490567/pexels-photo-27490567.jpeg
+Drawing line: Ever wondered what
+Drawing line: happens to soil after
+Drawing line: multiple wildfires?
+Request URL: https://api.pexels.com/v1/search?query=African+savanna+landscape+with+controlled+fire+or+smoke&per_page=1
+Status Code: 200
+Response Text: {"page":1,"per_page":1,"photos":[{"id":15022729,"width":6000,"height":4000,"url":"https://www.pexels.com/photo/man-bending-over-bonfire-15022729/","photographer":"Fredrick Bk Gasentsima","photographer_url":"https://www.pexels.com/@fredrickbk","photographer_id":75709535,"avg_color":"#6E706F","src":{"original":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg","large2x":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=2\u0026h=650\u0026w=940","large":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=650\u0026w=940","medium":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=350","small":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=130","portrait":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=1200\u0026w=800","landscape":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=627\u0026w=1200","tiny":"https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=1\u0026fit=crop\u0026h=200\u0026w=280"},"liked":false,"alt":"A man in rural Botswana tends to a small outdoor fire, surrounded by natural elements."}],"total_results":8000,"next_page":"https://api.pexels.com/v1/search?page=2\u0026per_page=1\u0026query=African+savanna+landscape+with+controlled+fire+or+smoke"}
+🔗 Downloading image: https://images.pexels.com/photos/15022729/pexels-photo-15022729.jpeg
+Drawing line: Are savanna fires
+Drawing line: getting fiercer? Here's
+Drawing line: what science says!
+Request URL: https://api.pexels.com/v1/search?query=community+volunteers+conducting+a+controlled+burn+in+a+forest&per_page=1
+Status Code: 200
+Response Text: {"page":1,"per_page":1,"photos":[{"id":9543732,"width":6041,"height":4027,"url":"https://www.pexels.com/photo/group-of-people-doing-an-environmental-cleanup-9543732/","photographer":"Ron Lach","photographer_url":"https://www.pexels.com/@ron-lach","photographer_id":22992178,"avg_color":"#595347","src":{"original":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg","large2x":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=2\u0026h=650\u0026w=940","large":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=650\u0026w=940","medium":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=350","small":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026h=130","portrait":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=1200\u0026w=800","landscape":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026fit=crop\u0026h=627\u0026w=1200","tiny":"https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=1\u0026fit=crop\u0026h=200\u0026w=280"},"liked":false,"alt":"A group of volunteers cleaning up litter in a forest, promoting sustainability and conservation."}],"total_results":8000,"next_page":"https://api.pexels.com/v1/search?page=2\u0026per_page=1\u0026query=community+volunteers+conducting+a+controlled+burn+in+a+forest"}
+🔗 Downloading image: https://images.pexels.com/photos/9543732/pexels-photo-9543732.jpeg
+Drawing line: Neighbors fighting fire
+Drawing line: with fire? Literally!
+Pipeline executed successfully.
+Starting pipeline execution...
+Progress: 1/52
+Progress: 3/52
+Progress: 4/52
+Progress: 5/52
+Progress: 6/52
+Progress: 7/52
+Progress: 10/52
+Progress: 12/52
+Progress: 15/52
+Progress: 16/52
+Progress: 20/52
+Progress: 23/52
+Progress: 26/52
+Progress: 27/52
+Progress: 32/52
+Progress: 34/52
+Progress: 35/52
+Progress: 36/52
+Progress: 41/52
+Progress: 43/52
+Progress: 45/52
+Progress: 47/52
+Ingestion completed. Processing articles...
+{'hook': '🔥 Ever wondered what happens when animal dung catches fire in the wild?', 'caption': "Turns out, animal dung isn't just waste—it's a nutrient hotspot! 💩🔥 Researchers found that when dung from animals like elephants and zebras burns, it releases carbon and enriches the soil with nutrients like calcium and phosphorus. This unique process helps maintain the balance of savanna ecosystems. 🌍✨ Understanding this can help us better estimate carbon emissions and nutrient cycling in these vital habitats. Nature truly recycles everything! ♻️🐘🦓", 'hashtags': ['SavannaScience', 'NatureRecycles', 'WildlifeResearch', 'EcoBalance', 'FireEcology'], 'image_prompt': 'African savanna landscape with a controlled grass fire', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24162', 'article_title': 'Burning poop: chemical composition and carbon dynamics of large herbivore dung burned in African savanna fires'}
+Progress: [##########------------------------------] 1/4 articles processed{'hook': '🔥 Ever wondered what happens to soil after a wildfire?', 'caption': "Wildfires don't just burn trees—they also affect what's beneath our feet! 🌲🔥 Scientists have developed a new way to simulate how fires impact soil carbon, specifically looking at pyrogenic organic matter (PyOM). Turns out, hotter fires and shallower soil depths mean more carbon loss. Understanding this helps us predict how future fires might change our ecosystems. 🌍🌱 #WildfireScience #SoilHealth #ClimateChange", 'hashtags': ['WildfireScience', 'SoilHealth', 'ClimateChange'], 'image_prompt': 'forest floor after wildfire', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24128', 'article_title': 'Reburning pyrogenic organic matter: a laboratory method for dosing dynamic heat fluxes from above'}
+Progress: [####################--------------------] 2/4 articles processed{'hook': "🔥 Are savanna fires getting fiercer? Here's what science says!", 'caption': "Did you know that fires in African savannas are becoming more intense, especially during the late dry season? 🌾🔥 Recent research shows that fire weather severity is increasing, but it's not just about the weather—human activities also play a big role! By managing fires proactively during the early, wetter season, we can help protect wildlife, reduce emissions, and keep our savannas healthy. 🌍🐘 Let's spread awareness and support conservation efforts!", 'hashtags': ['SavannaFires', 'ClimateChange', 'WildlifeConservation', 'FireManagement', 'EcoAwareness'], 'image_prompt': 'African savanna landscape with controlled fire or smoke', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24002', 'article_title': 'Fire weather severity in southern Africa is increasing faster and more extensively in the late than in the early dry season'}
+Progress: [##############################----------] 3/4 articles processed{'hook': '🔥 Neighbors fighting fire with fire—literally!', 'caption': "Did you know communities across the US are teaming up to safely use fire to protect their lands? 🌲🔥 Prescribed Burn Associations (PBAs) are groups of neighbors helping neighbors, pooling resources, and training volunteers to conduct controlled burns. This approach not only reduces wildfire risks but also restores ecosystems! 🌿👩\u200d🚒👨\u200d🚒 Together, they're burning over 34,000 hectares annually, proving that community-led initiatives can make a huge difference. Let's celebrate these fiery heroes! 🙌🔥", 'hashtags': ['#PrescribedBurn', '#CommunityAction', '#WildfirePrevention', '#EcoRestoration', '#NeighborsHelpingNeighbors'], 'image_prompt': 'community volunteers conducting a controlled burn in a forest', 'article_link': 'https://www.publish.csiro.au/wf/pdf/WF24178', 'article_title': 'Burning from the ground up: the structure and impact of Prescribed Burn Associations in the United States'}
+Progress: [########################################] 4/4 articles processedProcessing completed. Generating images...
+Generating images:   0%|          | 0/19 [00:00<?, ?it/s]Generating images: 100%|██████████| 19/19 [00:00<00:00, 50662.29it/s]
+Pipeline executed successfully.
